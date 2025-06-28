@@ -107,12 +107,9 @@ function M.send_code(code)
 end
 function M.get_selection()
   local mode = vim.fn.mode()
-  local start_pos, end_pos
-
-  if mode == "v" or mode == "V" then
-    start_pos = vim.api.nvim_buf_get_mark(0, "<")
-    end_pos = vim.api.nvim_buf_get_mark(0, ">")
-  else
+  local start_pos = vim.api.nvim_buf_get_mark(0, "<")
+  local end_pos = vim.api.nvim_buf_get_mark(0, ">")
+  if start_pos[1] == 0 or end_pos[1] == 0 then
     -- fallback: current line
     local cur = vim.api.nvim_win_get_cursor(0)
     start_pos = { cur[1], 0 }
