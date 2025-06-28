@@ -8,7 +8,7 @@ lazyvim installation
 return {
   "mikemasam/jsrepl.nvim",
   config = function()
-    require("jslive").setup({
+    require("jsrepl").setup({
       -- preload_files = {
         -- "/absolute/path/to/helpers.js",
         -- "/absolute/path/to/globals.js",
