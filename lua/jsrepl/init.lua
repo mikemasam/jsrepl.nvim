@@ -49,6 +49,12 @@ function M.open_output()
   return output_win, output_buf
 end
 
+function write(lines)
+  vim.api.nvim_buf_set_lines(output_buf, -1, -1, false, lines)
+  local line_count = vim.api.nvim_buf_line_count(output_buf)
+  vim.api.nvim_win_set_cursor(output_win, {line_count, 0})
+end
+
 function M.start_repl()
   if repl_job then
     return
@@ -70,7 +76,7 @@ function M.start_repl()
       -- Append REPL output to output buffer
       -- local lines = vim.split(table.concat(data, "\n"), "\n")
       if #filtered > 0 then
-        vim.api.nvim_buf_set_lines(output_buf, -1, -1, false, filtered)
+        write(filtered)
       end
     end,
     on_stderr = function(_, data, _)
@@ -79,7 +85,7 @@ function M.start_repl()
         return
       end
       local lines = vim.split(table.concat(data, "\n"), "\n")
-      vim.api.nvim_buf_set_lines(output_buf, -1, -1, false, lines)
+      write(lines)
     end,
     on_exit = function()
       print("repl exit = ")
